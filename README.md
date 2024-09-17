@@ -4,6 +4,13 @@
 
 `lc-api` is a project that provides an API service utilizing various language models. It is built using the NestJS framework and integrates with different language model services.
 
+Supported LLM services:
+- [x] OpenAI
+- [x] Ollama
+- [x] AWS Bedrock
+
+## Motivation
+
 The aim of this project is to play around with TypeScript, NestJS, and LangChain.
 
 ## Features

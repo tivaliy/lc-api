@@ -9,6 +9,11 @@ export type LLMSettings = {
   openai: {
     openAIApiKey: string;
   };
+  awsbedrock: {
+    bedrockAwsRegion: string;
+    bedrockAwsAccessKeyId: string;
+    bedrockAwsSecretAccessKey: string;
+  };
 };
 
 export default registerAs<LLMSettings>(llmSettingsKey, () => ({
@@ -17,5 +22,10 @@ export default registerAs<LLMSettings>(llmSettingsKey, () => ({
   },
   openai: {
     openAIApiKey: process.env.OPENAI_API_KEY,
+  },
+  awsbedrock: {
+    bedrockAwsRegion: process.env.BEDROCK_AWS_REGION,
+    bedrockAwsAccessKeyId: process.env.BEDROCK_AWS_ACCESS_KEY_ID,
+    bedrockAwsSecretAccessKey: process.env.BEDROCK_AWS_SECRET_ACCESS_KEY,
   },
 }));

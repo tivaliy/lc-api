@@ -37,7 +37,7 @@ The aim of this project is to play around with TypeScript, NestJS, and LangChain
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/lc-api.git
+   git clone https://github.com/tivaliy/lc-api.git
    ```
 2. Install dependencies:
    ```sh

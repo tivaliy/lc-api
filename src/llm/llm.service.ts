@@ -4,6 +4,7 @@ import { OllamaService } from './ollama.service';
 import { LLmService } from './llm.interface';
 import { LLMConfig} from './llm.config';
 import { ConfigService } from '@nestjs/config';
+import { BedrockConverseService } from './bedrock.service';
 
 @Injectable()
 export class LLMFactory {
@@ -18,6 +19,8 @@ export class LLMFactory {
       case 'llava':
       case 'phi3':
         return new OllamaService(llmConfig, this.configService);
+      case 'mistral.mistral-7b-instruct-v0:2':
+        return new BedrockConverseService(llmConfig, this.configService);
       default:
         throw new Error(`Unknown model name: ${llmConfig.modelName}`);
     }

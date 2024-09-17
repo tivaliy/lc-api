@@ -5,6 +5,7 @@ import { LLmService } from './llm.interface';
 import { LLMConfig} from './llm.config';
 import { ConfigService } from '@nestjs/config';
 import { BedrockConverseService } from './bedrock.service';
+import { ModelName } from './llm.enum';
 
 @Injectable()
 export class LLMFactory {
@@ -12,14 +13,14 @@ export class LLMFactory {
 
   getService(llmConfig: LLMConfig): LLmService {
     switch (llmConfig.modelName) {
-      case 'gpt-3.5-turbo':
-      case 'gpt-4':
+      case ModelName.GPT_3_5_TURBO:
+      case ModelName.GPT_4:
         return new OpenAIService(llmConfig, this.configService);
-      case 'llama3.1':
-      case 'llava':
-      case 'phi3':
+      case ModelName.LLAMA_3_1:
+      case ModelName.LLAVA:
+      case ModelName.PHI_3:
         return new OllamaService(llmConfig, this.configService);
-      case 'mistral.mistral-7b-instruct-v0:2':
+      case ModelName.MISTRAL_7B_INSTRUCT:
         return new BedrockConverseService(llmConfig, this.configService);
       default:
         throw new Error(`Unknown model name: ${llmConfig.modelName}`);

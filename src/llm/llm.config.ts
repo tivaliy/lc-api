@@ -1,5 +1,7 @@
+import { ModelName } from './llm.enum';
+
 export interface LLMConfig {
-  modelName: string;
+  modelName: ModelName;
   temperature: number;
   maxTokens: number;
 }

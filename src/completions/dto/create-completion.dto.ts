@@ -1,4 +1,5 @@
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -7,12 +8,17 @@ import {
   Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { ModelName } from '../../llm/llm.enum';
 
 export class CreateCompletionDto {
-  @IsString()
+  @IsEnum(ModelName)
   @IsNotEmpty()
-  @ApiProperty({ example: 'gpt-3.5-turbo' })
-  modelName: string;
+  @ApiProperty({
+    enum: ModelName,
+    enumName: 'ModelNames',
+    example: ModelName.GPT_3_5_TURBO,
+  })
+  modelName: ModelName;
 
   @IsNumber()
   @Max(1)

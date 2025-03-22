@@ -32,7 +32,6 @@ async function bootstrap() {
     .setTitle('LC-API')
     .setDescription('Demo LLM API wrapper')
     .setVersion('0.0.1')
-    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

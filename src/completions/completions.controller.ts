@@ -1,4 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { CreateCompletionDto } from './dto/create-completion.dto';
 import { LLMFactory } from '../llm/llm.service';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
@@ -11,6 +16,9 @@ interface Answer {
   answer: string;
 }
 
+const PROMPT_TEMPLATE =
+  'Answer the following question: {question}. Respond with a valid JSON object with the key "answer".';
+
 @ApiTags('completions')
 @Controller('completions')
 export class CompletionsController {
@@ -20,19 +28,28 @@ export class CompletionsController {
   async generateCompletion(
     @Body() createCompletionDto: CreateCompletionDto,
   ): Promise<CompletionResponseDto> {
-    const { modelName, temperature, maxTokens, question } = createCompletionDto;
+    const { provider, modelName, temperature, maxTokens, question } =
+      createCompletionDto;
 
-    const llmConfig: LLMConfig = { modelName, temperature, maxTokens };
+    const llmConfig: LLMConfig = {
+      provider,
+      modelName,
+      temperature,
+      maxTokens,
+    };
     const llm_service = this.llmFactory.getService(llmConfig);
 
-    const prompt = ChatPromptTemplate.fromTemplate(
-      'Answer the following question: {question}. Respond with a valid JSON object with the key "answer".',
-    );
-
-    return await llm_service.generateCompletion(
-      { question: question },
-      prompt,
-      new JsonOutputParser<Answer>(),
-    );
+    const prompt = ChatPromptTemplate.fromTemplate(PROMPT_TEMPLATE);
+    try {
+      return await llm_service.generateCompletion(
+        { question: question },
+        prompt,
+        new JsonOutputParser<Answer>(),
+      );
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        `Failed to generate completion: ${error.message}`,
+      );
+    }
   }
 }

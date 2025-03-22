@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { ChatOllama } from '@langchain/ollama';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
-import { StringOutputParser } from '@langchain/core/output_parsers';
-import { LLmService } from './llm.interface';
 import { LLMConfig } from './llm.config';
 import { ConfigService } from '@nestjs/config';
 import { llmSettingsKey } from '../config/llm.config';
-import { BaseOutputParser } from '@langchain/core/dist/output_parsers/base';
+import { BaseLLMService } from './base.service';
 
 @Injectable()
-export class OllamaService implements LLmService {
-  private chatOllama: ChatOllama;
+export class OllamaService extends BaseLLMService<ChatOllama> {
+  private readonly chatOllama: ChatOllama;
 
   constructor(
     public readonly llmConfig: LLMConfig,
     private configService: ConfigService,
   ) {
+    super(llmConfig);
     const llmSettings = this.configService.get(llmSettingsKey);
     this.chatOllama = new ChatOllama({
       baseUrl: llmSettings.ollama.baseUrl,
@@ -24,12 +22,7 @@ export class OllamaService implements LLmService {
     });
   }
 
-  async generateCompletion(
-    input: any,
-    prompt: ChatPromptTemplate,
-    outputParser: BaseOutputParser = new StringOutputParser(),
-  ): Promise<any> {
-    const chain = prompt.pipe(this.chatOllama).pipe(outputParser);
-    return await chain.invoke(input);
+  protected getChatModel(): ChatOllama {
+    return this.chatOllama;
   }
 }

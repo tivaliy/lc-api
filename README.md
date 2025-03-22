@@ -50,6 +50,7 @@ The aim of this project is to play around with TypeScript, NestJS, and LangChain
    npm run start
    ```
 5. The application should now be running on `http://localhost:8888`.
+6. Swagger API documentation is available at `http://localhost:8888/docs`.
 
 ## Keywords
 

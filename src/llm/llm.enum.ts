@@ -1,7 +1,7 @@
 export enum ModelName {
   // OpenAI, https://platform.openai.com/docs/models
   GPT_3_5_TURBO = 'gpt-3.5-turbo',
-  GPT_4 = 'gpt-4',
+  GPT_4o = 'gpt-4o',
 
   // Ollama, https://ollama.com/library
   LLAMA_3_1 = 'llama3.1',

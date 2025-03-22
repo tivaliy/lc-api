@@ -29,9 +29,9 @@ async function bootstrap() {
   });
 
   const options = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('API docs')
-    .setVersion('1.0')
+    .setTitle('LC-API')
+    .setDescription('Demo LLM API wrapper')
+    .setVersion('0.0.1')
     .addBearerAuth()
     .build();
 

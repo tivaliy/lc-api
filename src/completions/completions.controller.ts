@@ -5,11 +5,13 @@ import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { LLMConfig } from '../llm/llm.config';
 import { CompletionResponseDto } from './dto/completion-response.dto';
 import { JsonOutputParser } from '@langchain/core/output_parsers';
+import { ApiTags } from '@nestjs/swagger';
 
 interface Answer {
   answer: string;
 }
 
+@ApiTags('completions')
 @Controller('completions')
 export class CompletionsController {
   constructor(private readonly llmFactory: LLMFactory) {}
